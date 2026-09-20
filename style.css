@@ -1,0 +1,300 @@
+/* Modern UI Setup */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+    scroll-behavior: smooth;
+}
+
+body {
+    background-color: #0d1117; /* Premium Dark Background */
+    color: #c9d1d9;
+}
+
+/* Glassmorphism Navbar */
+.glass-nav {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background: rgba(13, 17, 23, 0.85);
+    backdrop-filter: blur(10px);
+    display: flex;
+    justify-content: space-between;
+    padding: 20px 50px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: 600;
+    color: #fff;
+}
+
+.logo span { color: #ff5722; }
+
+nav ul {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+
+nav ul a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: 400;
+    transition: 0.3s;
+}
+
+nav ul a:hover { color: #ff5722; }
+
+.btn-nav {
+    background: #ff5722;
+    padding: 8px 18px;
+    border-radius: 20px;
+    font-weight: 600;
+}
+
+.btn-nav:hover { background: #e64a19; color: #fff; }
+
+/* Hero Section with Real Image background */
+#hero {
+    background: url('https://images.unsplash.com/photo-1600078686880-9279a0b1bc67?q=80&w=1920&auto=format&fit=crop') center/cover no-repeat;
+    height: 90vh;
+    position: relative;
+}
+
+.hero-overlay {
+    background: linear-gradient(to right, rgba(0,0,0,0.9), rgba(0,0,0,0.4));
+    height: 100%;
+    display: flex;
+    align-items: center;
+    padding: 0 10%;
+}
+
+.hero-content { max-width: 650px; }
+
+.hero-content h1 {
+    font-size: 56px;
+    line-height: 1.1;
+    color: #fff;
+    margin-bottom: 20px;
+}
+
+.hero-content p {
+    font-size: 18px;
+    color: #aaa;
+    margin-bottom: 30px;
+}
+
+.btn-primary {
+    background: #ff5722;
+    color: #fff;
+    padding: 15px 30px;
+    border-radius: 30px;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: 600;
+    box-shadow: 0 10px 20px rgba(255, 87, 34, 0.3);
+    transition: 0.3s;
+}
+
+.btn-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 25px rgba(255, 87, 34, 0.5);
+}
+
+/* Sections */
+.section-container {
+    padding: 100px 10%;
+}
+
+.section-title {
+    font-size: 36px;
+    color: #fff;
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.subtitle {
+    text-align: center;
+    color: #888;
+    margin-top: -40px;
+    margin-bottom: 50px;
+    font-size: 16px;
+}
+
+/* Modern Image Cards */
+.grid-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+}
+
+.modern-card {
+    background: #161b22;
+    border-radius: 15px;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.05);
+    transition: 0.4s;
+}
+
+.modern-card:hover {
+    transform: translateY(-10px);
+    border-color: #ff5722;
+    box-shadow: 0 10px 30px rgba(255,87,34,0.1);
+}
+
+.modern-card img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+}
+
+.card-content { padding: 25px; }
+
+.card-content h3 {
+    color: #ff5722;
+    margin-bottom: 12px;
+    font-size: 22px;
+}
+
+.card-content p { color: #8b949e; font-size: 15px; line-height: 1.6; }
+
+/* Dashboard UI for Calculator */
+.dashboard {
+    display: flex;
+    gap: 50px;
+    background: #161b22;
+    padding: 40px;
+    border-radius: 20px;
+    border: 1px solid rgba(255,255,255,0.1);
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.controls { flex: 1; min-width: 300px; }
+
+.slider-group { margin-bottom: 25px; }
+
+.slider-group label {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    font-weight: 600;
+    color: #fff;
+}
+
+.val-highlight { color: #ff5722; }
+
+input[type=range] {
+    width: 100%;
+    accent-color: #ff5722;
+    cursor: pointer;
+}
+
+/* Dynamic Result Display */
+.result-display {
+    flex: 1;
+    min-width: 300px;
+    text-align: center;
+    background: #0d1117;
+    padding: 40px;
+    border-radius: 15px;
+    border: 1px solid rgba(255,255,255,0.05);
+}
+
+.result-display h3 { color: #8b949e; margin-bottom: 20px; font-weight: 400; }
+
+.progress-bar-container {
+    width: 100%;
+    height: 25px;
+    background: #21262d;
+    border-radius: 15px;
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+
+.progress-fill {
+    height: 100%;
+    width: 42.5%;
+    background: #ffd700;
+    transition: width 0.4s ease, background-color 0.4s ease;
+}
+
+#risk-text { font-size: 20px; color: #ffd700; }
+
+footer {
+    text-align: center;
+    padding: 40px;
+    background: #090c10;
+    border-top: 1px solid rgba(255,255,255,0.05);
+}
+
+.ack { color: #8b949e; margin-bottom: 10px; }
+.student-info { color: #fff; font-weight: 600; margin-bottom: 20px; }
+.copyright { color: #484f58; font-size: 14px; }
+
+/* --- New Slider Styles --- */
+.slider-wrapper {
+    position: relative;
+    max-width: 800px;
+    margin: 0 auto;
+    overflow: hidden; /* Hides the slides that go outside the container */
+    background: #161b22;
+    border-radius: 15px;
+    border: 1px solid rgba(255,255,255,0.1);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+.slider-track {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+    width: 500%; /* 500% width for 5 slides */
+}
+
+.slide-card {
+    width: 20%; /* Each slide takes 1/5th of the track */
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Image Placeholder Style */
+.image-placeholder {
+    width: 100%;
+    height: 300px;
+    background: #21262d;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #8b949e;
+    font-size: 18px;
+    border-bottom: 2px dashed #484f58;
+}
+
+.slide-arrow {
+    position: absolute;
+    top: 35%;
+    transform: translateY(-50%);
+    background: rgba(0,0,0,0.6);
+    color: #ff5722;
+    border: none;
+    font-size: 24px;
+    padding: 15px;
+    cursor: pointer;
+    z-index: 10;
+    border-radius: 50%;
+    transition: 0.3s;
+}
+
+.slide-arrow:hover {
+    background: #ff5722;
+    color: #fff;
+}
+
+.left-arrow { left: 15px; }
+.right-arrow { right: 15px; }

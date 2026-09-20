@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Wildfire Predictor</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header class="glass-nav">
+        <div class="logo">🔥 FireRisk<span>AI</span></div>
+        <nav>
+            <ul>
+                <li><a href="#chemistry">Chemistry</a></li>
+                <li><a href="#facts">Research</a></li>
+                <li><a href="#calculator" class="btn-nav">Launch AI Model</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section id="hero">
+        <div class="hero-overlay">
+            <div class="hero-content">
+                <h1>Predict. Prevent. Protect.</h1>
+                <p>Advanced AI-driven analysis of combustion chemistry and environmental parameters to detect wildfire threats before they escalate.</p>
+                <a href="#calculator" class="btn-primary">Access Prediction Engine</a>
+            </div>
+        </div>
+    </section>
+
+ <section id="chemistry" class="section-container">
+        <h2 class="section-title">Wildfire Research & AI</h2>
+        
+        <!-- Slider Container -->
+        <div class="slider-wrapper">
+            <button class="slide-arrow left-arrow" onclick="moveSlide(-1)">&#10094;</button>
+            
+            <div class="slider-track" id="slider-track">
+                
+                <!-- Slide 1 -->
+                <a href="topic1.html" target="_blank" class="slide-card" style="text-decoration: none; color: inherit;">
+                    <div class="image-placeholder">Image 1 Placeholder</div>
+                    <div class="card-content">
+                        <h3 id="heading-1" style="font-size: 18px;">Causes of Forest Fires</h3>
+                        <p id="text-1" style="font-size: 13px;">Forest fires can start from natural and human causes. Natural causes include lightning and extreme heat...</p>
+                        <span style="color: #ff5722; font-size: 12px; margin-top: 10px; display: block;">Read Full Article &rarr;</span>
+                    </div>
+                </a>
+
+                <!-- Slide 2 -->
+                <a href="topic2.html" target="_blank" class="slide-card" style="text-decoration: none; color: inherit;">
+                    <div class="image-placeholder">Image 2 Placeholder</div>
+                    <div class="card-content">
+                        <h3 id="heading-2" style="font-size: 18px;">Scale and Impact</h3>
+                        <p id="text-2" style="font-size: 13px;">Wildfires cause enormous environmental and economic losses. Globally, hundreds of millions of hectares are affected...</p>
+                        <span style="color: #ff5722; font-size: 12px; margin-top: 10px; display: block;">Read Full Article &rarr;</span>
+                    </div>
+                </a>
+
+                <!-- Slide 3 -->
+                <a href="topic3.html" target="_blank" class="slide-card" style="text-decoration: none; color: inherit;">
+                    <div class="image-placeholder">Image 3 Placeholder</div>
+                    <div class="card-content">
+                        <h3 id="heading-3" style="font-size: 18px;">Role of AI</h3>
+                        <p id="text-3" style="font-size: 13px;">AI reduces damage through early detection and risk analysis. Systems analyse images from cameras and satellites...</p>
+                        <span style="color: #ff5722; font-size: 12px; margin-top: 10px; display: block;">Read Full Article &rarr;</span>
+                    </div>
+                </a>
+
+                <!-- Slide 4 -->
+                <a href="topic4.html" target="_blank" class="slide-card" style="text-decoration: none; color: inherit;">
+                    <div class="image-placeholder">Image 4 Placeholder</div>
+                    <div class="card-content">
+                        <h3 id="heading-4" style="font-size: 18px;">Early Detection</h3>
+                        <p id="text-4" style="font-size: 13px;">AI reduces the time between ignition and detection. Modern systems combine AI with surveillance cameras and sensors...</p>
+                        <span style="color: #ff5722; font-size: 12px; margin-top: 10px; display: block;">Read Full Article &rarr;</span>
+                    </div>
+                </a>
+
+                <!-- Slide 5 -->
+                <a href="topic5.html" target="_blank" class="slide-card" style="text-decoration: none; color: inherit;">
+                    <div class="image-placeholder">Image 5 Placeholder</div>
+                    <div class="card-content">
+                        <h3 id="heading-5" style="font-size: 18px;">Future Potential</h3>
+                        <p id="text-5" style="font-size: 13px;">AI in wildfire management is developing beyond simple fire detection. Systems combine camera images, satellite data...</p>
+                        <span style="color: #ff5722; font-size: 12px; margin-top: 10px; display: block;">Read Full Article &rarr;</span>
+                    </div>
+                </a>
+
+            </div>
+            
+            <button class="slide-arrow right-arrow" onclick="moveSlide(1)">&#10095;</button>
+        </div>
+    </section>
+
+    <!-- Real-Time AI Calculator Section -->
+    <section id="calculator" class="section-container bg-dark-glass">
+        <h2 class="section-title text-orange">AI Risk Analysis Engine</h2>
+        <p class="subtitle">Adjust the environmental parameters to simulate chemical combustion probability in real-time.</p>
+        
+        <div class="dashboard">
+            <div class="controls">
+                <div class="slider-group">
+                    <label>Ambient Temperature: <span id="temp-val" class="val-highlight">25 °C</span></label>
+                    <input type="range" id="temp" min="0" max="50" value="25" oninput="updateRisk()">
+                </div>
+                <div class="slider-group">
+                    <label>Relative Humidity: <span id="hum-val" class="val-highlight">50 %</span></label>
+                    <input type="range" id="humidity" min="5" max="100" value="50" oninput="updateRisk()">
+                </div>
+                <div class="slider-group">
+                    <label>Wind Speed: <span id="wind-val" class="val-highlight">15 km/h</span></label>
+                    <input type="range" id="wind" min="0" max="100" value="15" oninput="updateRisk()">
+                </div>
+            </div>
+
+            <div class="result-display">
+                <h3>Combustion Probability</h3>
+                <div class="progress-bar-container">
+                    <div id="risk-progress" class="progress-fill"></div>
+                </div>
+                <h2 id="risk-text">Moderate Risk (42.5%) - Monitor Environment</h2>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <p class="ack"><strong>Academic Acknowledgement:</strong> This analytical tool is developed as part of the Continuous Assessment (CA1) task.</p>
+            <p class="student-info">Developed by: RAJHANS | Lovely Professional University</p>
+            <p class="copyright">&copy; 2026 Environmental Chemistry AI Project</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
