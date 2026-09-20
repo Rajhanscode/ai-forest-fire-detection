@@ -29,10 +29,9 @@
         </div>
     </section>
 
- <section id="chemistry" class="section-container">
+    <section id="chemistry" class="section-container">
         <h2 class="section-title">Wildfire Research & AI</h2>
         
-        <!-- Slider Container -->
         <div class="slider-wrapper">
             <button class="slide-arrow left-arrow" onclick="moveSlide(-1)">&#10094;</button>
             
@@ -40,7 +39,7 @@
                 
                 <!-- Slide 1 -->
                 <a href="topic1.html" target="_blank" class="slide-card" style="text-decoration: none; color: inherit;">
-                    <div class="image-placeholder">Image 1 Placeholder</div>
+                    <img src="https://images.unsplash.com/photo-1504297050568-910d24c426d3?q=80&w=800&auto=format&fit=crop" alt="Causes of Fire" style="width: 100%; height: 300px; object-fit: cover;">
                     <div class="card-content">
                         <h3 id="heading-1" style="font-size: 18px;">Causes of Forest Fires</h3>
                         <p id="text-1" style="font-size: 13px;">Forest fires can start from natural and human causes. Natural causes include lightning and extreme heat...</p>
@@ -50,7 +49,7 @@
 
                 <!-- Slide 2 -->
                 <a href="topic2.html" target="_blank" class="slide-card" style="text-decoration: none; color: inherit;">
-                    <div class="image-placeholder">Image 2 Placeholder</div>
+                    <img src="https://images.unsplash.com/photo-1517594422361-5e18a4049880?q=80&w=800&auto=format&fit=crop" alt="Impact of Wildfires" style="width: 100%; height: 300px; object-fit: cover;">
                     <div class="card-content">
                         <h3 id="heading-2" style="font-size: 18px;">Scale and Impact</h3>
                         <p id="text-2" style="font-size: 13px;">Wildfires cause enormous environmental and economic losses. Globally, hundreds of millions of hectares are affected...</p>
@@ -60,7 +59,7 @@
 
                 <!-- Slide 3 -->
                 <a href="topic3.html" target="_blank" class="slide-card" style="text-decoration: none; color: inherit;">
-                    <div class="image-placeholder">Image 3 Placeholder</div>
+                    <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=800&auto=format&fit=crop" alt="AI and Satellite Detection" style="width: 100%; height: 300px; object-fit: cover;">
                     <div class="card-content">
                         <h3 id="heading-3" style="font-size: 18px;">Role of AI</h3>
                         <p id="text-3" style="font-size: 13px;">AI reduces damage through early detection and risk analysis. Systems analyse images from cameras and satellites...</p>
@@ -70,7 +69,7 @@
 
                 <!-- Slide 4 -->
                 <a href="topic4.html" target="_blank" class="slide-card" style="text-decoration: none; color: inherit;">
-                    <div class="image-placeholder">Image 4 Placeholder</div>
+                    <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=800&auto=format&fit=crop" alt="Technology and Sensors" style="width: 100%; height: 300px; object-fit: cover;">
                     <div class="card-content">
                         <h3 id="heading-4" style="font-size: 18px;">Early Detection</h3>
                         <p id="text-4" style="font-size: 13px;">AI reduces the time between ignition and detection. Modern systems combine AI with surveillance cameras and sensors...</p>
@@ -80,7 +79,7 @@
 
                 <!-- Slide 5 -->
                 <a href="topic5.html" target="_blank" class="slide-card" style="text-decoration: none; color: inherit;">
-                    <div class="image-placeholder">Image 5 Placeholder</div>
+                    <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=800&auto=format&fit=crop" alt="Future AI Data" style="width: 100%; height: 300px; object-fit: cover;">
                     <div class="card-content">
                         <h3 id="heading-5" style="font-size: 18px;">Future Potential</h3>
                         <p id="text-5" style="font-size: 13px;">AI in wildfire management is developing beyond simple fire detection. Systems combine camera images, satellite data...</p>
@@ -94,7 +93,6 @@
         </div>
     </section>
 
-    <!-- Real-Time AI Calculator Section -->
     <section id="calculator" class="section-container bg-dark-glass">
         <h2 class="section-title text-orange">AI Risk Analysis Engine</h2>
         <p class="subtitle">Adjust the environmental parameters to simulate chemical combustion probability in real-time.</p>
@@ -115,12 +113,22 @@
                 </div>
             </div>
 
-            <div class="result-display">
-                <h3>Combustion Probability</h3>
+            <!-- Updated Result Display with PDF Feature -->
+            <div class="result-display" id="report-content" style="padding: 30px; background: #0d1117; border-radius: 15px;">
+                <h3 style="color: #c9d1d9; margin-bottom: 20px;">Combustion Probability Analysis</h3>
                 <div class="progress-bar-container">
                     <div id="risk-progress" class="progress-fill"></div>
                 </div>
                 <h2 id="risk-text">Moderate Risk (42.5%) - Monitor Environment</h2>
+                
+                <hr style="margin: 20px 0; border-color: rgba(255,255,255,0.1);">
+                <p id="report-details" style="color: #8b949e; font-size: 14px; margin-bottom: 25px;">
+                    Current Parameters: Temp: 25°C | Humidity: 50% | Wind: 15 km/h
+                </p>
+                
+                <button id="download-btn" class="btn-primary" onclick="downloadReport()" style="font-size: 15px; padding: 10px 20px; border: none; cursor: pointer; display: inline-block;">
+                    📄 Download PDF Report
+                </button>
             </div>
         </div>
     </section>
@@ -128,11 +136,13 @@
     <footer>
         <div class="footer-content">
             <p class="ack"><strong>Academic Acknowledgement:</strong> This analytical tool is developed as part of the Continuous Assessment (CA1) task.</p>
-            <p class="student-info">Developed by: RAJHANS & Gulzar & Krishna| Lovely Professional University</p>
+            <p class="student-info">Developed by: Rajhans & Gulzar & Krishna| Lovely Professional University</p>
             <p class="copyright">&copy; 2026 Environmental Chemistry AI Project</p>
         </div>
     </footer>
 
+    <!-- Added html2pdf library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <script src="script.js"></script>
 </body>
 </html>

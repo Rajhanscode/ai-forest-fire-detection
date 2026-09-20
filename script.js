@@ -8,6 +8,9 @@ function updateRisk() {
     document.getElementById('hum-val').innerText = humidity + " %";
     document.getElementById('wind-val').innerText = wind + " km/h";
 
+    // Update details for the PDF report
+    document.getElementById('report-details').innerText = `Current Parameters: Temp: ${temp}°C | Humidity: ${humidity}% | Wind: ${wind} km/h`;
+
     let tempFactor = Math.max(0, (temp - 10) * 2.5); 
     let humFactor = Math.max(0, (100 - humidity)); 
     let windFactor = Math.min(100, wind * 1.5); 
@@ -59,4 +62,27 @@ function moveSlide(direction) {
     const track = document.getElementById('slider-track');
     const movePercentage = currentSlideIndex * -20; 
     track.style.transform = `translateX(${movePercentage}%)`;
+}
+
+// --- PDF Report Generation Logic ---
+function downloadReport() {
+    const reportElement = document.getElementById('report-content');
+    const downloadBtn = document.getElementById('download-btn');
+    
+    // Hide the button temporarily so it doesn't appear in the PDF
+    downloadBtn.style.display = 'none';
+
+    // PDF Configuration Options
+    const opt = {
+        margin:       0.5,
+        filename:     'AI_Forest_Fire_Risk_Report.pdf',
+        image:        { type: 'jpeg', quality: 0.98 },
+        html2canvas:  { scale: 2, useCORS: true },
+        jsPDF:        { unit: 'in', format: 'letter', orientation: 'landscape' }
+    };
+
+    // Generate PDF and then show the button again
+    html2pdf().set(opt).from(reportElement).save().then(() => {
+        downloadBtn.style.display = 'inline-block';
+    });
 }
