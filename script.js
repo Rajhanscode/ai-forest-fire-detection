@@ -68,21 +68,40 @@ function moveSlide(direction) {
 function downloadReport() {
     const reportElement = document.getElementById('report-content');
     const downloadBtn = document.getElementById('download-btn');
+    const h3Title = reportElement.querySelector('h3');
+    const reportDetails = document.getElementById('report-details');
     
-    // Hide the button temporarily so it doesn't appear in the PDF
+    // 1. Hide the button temporarily
     downloadBtn.style.display = 'none';
 
-    // PDF Configuration Options
-    const opt = {
-        margin:       0.5,
-        filename:     'AI_Forest_Fire_Risk_Report.pdf',
-        image:        { type: 'jpeg', quality: 0.98 },
-        html2canvas:  { scale: 2, useCORS: true },
-        jsPDF:        { unit: 'in', format: 'letter', orientation: 'landscape' }
-    };
+    // 2. Set light mode for PDF (white background and black text)
+    reportElement.style.background = '#ffffff';
+    reportElement.style.border = '1px solid #ddd';
+    h3Title.style.color = '#000000';
+    reportDetails.style.color = '#555555';
 
-    // Generate PDF and then show the button again
-    html2pdf().set(opt).from(reportElement).save().then(() => {
-        downloadBtn.style.display = 'inline-block';
-    });
+    // 3. Add a small delay to allow DOM to repaint before capturing
+    setTimeout(() => {
+        const opt = {
+            margin:       0.5,
+            filename:     'AI_Forest_Fire_Risk_Report.pdf',
+            image:        { type: 'jpeg', quality: 0.98 },
+            html2canvas:  { 
+                scale: 2, 
+                useCORS: true,
+                scrollY: 0 // Fixes the blank page bug caused by scrolling
+            }, 
+            jsPDF:        { unit: 'in', format: 'letter', orientation: 'landscape' }
+        };
+
+        // 4. Generate PDF and revert to dark mode
+        html2pdf().set(opt).from(reportElement).save().then(() => {
+            // Revert to original dark theme
+            downloadBtn.style.display = 'inline-block';
+            reportElement.style.background = '#0d1117'; 
+            reportElement.style.border = 'none';
+            h3Title.style.color = '#c9d1d9'; 
+            reportDetails.style.color = '#8b949e'; 
+        });
+    }, 150);
 }
