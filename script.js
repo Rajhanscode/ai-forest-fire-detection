@@ -8,7 +8,6 @@ function updateRisk() {
     document.getElementById('hum-val').innerText = humidity + " %";
     document.getElementById('wind-val').innerText = wind + " km/h";
 
-    // Update details for the PDF report
     document.getElementById('report-details').innerText = `Current Parameters: Temp: ${temp}°C | Humidity: ${humidity}% | Wind: ${wind} km/h`;
 
     let tempFactor = Math.max(0, (temp - 10) * 2.5); 
@@ -71,16 +70,13 @@ function downloadReport() {
     const h3Title = reportElement.querySelector('h3');
     const reportDetails = document.getElementById('report-details');
     
-    // 1. Hide the button temporarily
     downloadBtn.style.display = 'none';
 
-    // 2. Set light mode for PDF (white background and black text)
     reportElement.style.background = '#ffffff';
     reportElement.style.border = '1px solid #ddd';
     h3Title.style.color = '#000000';
     reportDetails.style.color = '#555555';
 
-    // 3. Add a small delay to allow DOM to repaint before capturing
     setTimeout(() => {
         const opt = {
             margin:       0.5,
@@ -89,14 +85,12 @@ function downloadReport() {
             html2canvas:  { 
                 scale: 2, 
                 useCORS: true,
-                scrollY: 0 // Fixes the blank page bug caused by scrolling
+                scrollY: 0 
             }, 
             jsPDF:        { unit: 'in', format: 'letter', orientation: 'landscape' }
         };
 
-        // 4. Generate PDF and revert to dark mode
         html2pdf().set(opt).from(reportElement).save().then(() => {
-            // Revert to original dark theme
             downloadBtn.style.display = 'inline-block';
             reportElement.style.background = '#0d1117'; 
             reportElement.style.border = 'none';
@@ -105,3 +99,8 @@ function downloadReport() {
         });
     }, 150);
 }
+
+// --- Mobile Hamburger Menu Toggle Logic ---
+document.getElementById('hamburger').addEventListener('click', function() {
+    document.getElementById('nav-links').classList.toggle('show');
+});
