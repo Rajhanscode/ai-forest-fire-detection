@@ -298,3 +298,63 @@ footer {
 
 .left-arrow { left: 15px; }
 .right-arrow { right: 15px; }
+
+/* --- Mobile Responsiveness (Do not remove this section) --- */
+@media screen and (max-width: 768px) {
+    /* General Containers */
+    body {
+        padding: 5px;
+        overflow-x: hidden;
+    }
+    
+    .container, #calculator, #report-content, .slide {
+        width: 95%;
+        padding: 15px;
+        margin: 10px auto;
+        box-sizing: border-box;
+    }
+
+    /* Typography Adjustments */
+    h1, .header-title {
+        font-size: 1.8rem;
+        margin-top: 15px;
+    }
+    h2 {
+        font-size: 1.4rem;
+    }
+    p, label {
+        font-size: 14px;
+    }
+
+    /* Inputs, Sliders, and Buttons */
+    input[type="range"], input[type="number"], .btn-primary, .btn-back, button {
+        width: 100%;
+        box-sizing: border-box;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        padding: 12px;
+        font-size: 16px;
+    }
+
+    /* Map Adjustments */
+    #map-container {
+        width: 100%;
+        height: 60vh;
+        margin: 15px 0;
+        border-radius: 8px;
+    }
+
+    /* Fix slider overflowing on small screens */
+    #slider-container {
+        width: 100%;
+        overflow: hidden;
+    }
+
+    /* Stack elements vertically if they are side-by-side */
+    .row, .flex-box {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+    }
+}
