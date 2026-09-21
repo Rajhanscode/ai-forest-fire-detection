@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Global Fire Risk Map</title>
+    
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    
+    <style>
+        body {
+            background-color: #0d1117;
+            color: #c9d1d9;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+            font-family: Arial, sans-serif;
+        }
+        
+        #map-container {
+            width: 90%;
+            max-width: 1000px;
+            height: 520px;
+            margin: 30px auto;
+            border-radius: 12px;
+            border: 2px solid #ff5722;
+            box-shadow: 0 0 20px rgba(255, 87, 34, 0.3);
+        }
+
+        /* Matches the map background to your website theme to hide any gray areas */
+        .leaflet-container {
+            background-color: #0d1117 !important;
+        }
+
+        .header-title {
+            color: #ff5722;
+            margin-top: 30px;
+            font-size: 2.5rem;
+        }
+
+        .btn-back {
+            display: inline-block;
+            margin-top: 10px;
+            margin-bottom: 30px;
+            padding: 12px 25px;
+            background: #ff5722;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+
+        /* Custom Popup Style */
+        .leaflet-popup-content-wrapper {
+            background: #161b22;
+            color: #c9d1d9;
+            border: 1px solid #ff5722;
+        }
+        .leaflet-popup-tip { background: #161b22; }
+        .leaflet-popup-content h3 {
+            color: #ff5722;
+            margin-top: 0;
+            margin-bottom: 10px;
+            border-bottom: 1px solid #333;
+            padding-bottom: 5px;
+        }
+        
+        .custom-fire-emoji {
+            background: none;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+
+    <h1 class="header-title">🌍 Global Forest Fire Risk Map</h1>
+    <p style="font-size: 18px; color: #8b949e;">Click on the map markers to view detailed historical wildfire data and current risk levels.</p>
+
+    <!-- Map Div -->
+    <div id="map-container"></div>
+
+    <div>
+        <a href="index.html" class="btn-back">&larr; Back to Dashboard</a>
+    </div>
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        // Restrict bounds so user cannot pan into empty gray space
+        const bounds = [
+            [-85, -180], 
+            [85, 180]    
+        ];
+
+        // Initialize map with restricted minZoom to prevent zooming out into empty space
+        var map = L.map('map-container', {
+            center: [20, 0],
+            zoom: 2.5,
+            minZoom: 2.5, // Prevents zooming out too small
+            maxZoom: 18,
+            maxBounds: bounds,
+            maxBoundsViscosity: 1.0
+        });
+
+        // Free Esri Dark Tile Layer (No API Key Required)
+        L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
+            attribution: 'Tiles &copy; Esri'
+        }).addTo(map);
+
+        // Expanded Forest Data with deep details
+        var forestData = [
+            {
+                name: "Amazon Rainforest (Brazil)",
+                coords: [-3.4653, -62.2159],
+                risk: "Critical (85%)",
+                status: "High Alert - Active Monitoring",
+                lastFire: "August 2019",
+                temp: "35°C",
+                humidity: "Below 30%",
+                cause: "Deforestation & slash-and-burn agriculture",
+                impact: "Destroyed over 900,000 hectares of vital ecosystem."
+            },
+            {
+                name: "Similipal National Park (India)",
+                coords: [21.9472, 86.2699],
+                risk: "High (70%)",
+                status: "Moderate Alert",
+                lastFire: "March 2024",
+                temp: "39°C",
+                humidity: "35% - 40%",
+                cause: "Dry deciduous leaves catching fire naturally & human activities",
+                impact: "Threatened local wildlife and burned thousands of acres."
+            },
+            {
+                name: "Uttarakhand Himalayan Forests (India)",
+                coords: [30.0668, 79.0193],
+                risk: "Very High (78%)",
+                status: "Seasonal High Risk",
+                lastFire: "Summer 2024",
+                temp: "32°C - 36°C",
+                humidity: "Extremely dry (20%)",
+                cause: "Highly flammable dry Chir Pine needles",
+                impact: "Massive smoke pollution and loss of native flora."
+            },
+            {
+                name: "California Forests (USA)",
+                coords: [39.7596, -121.6219],
+                risk: "Very High (80%)",
+                status: "Active Warning during Fall",
+                lastFire: "November 2018 (Camp Fire)",
+                temp: "22°C",
+                humidity: "15%",
+                cause: "Powerline failure & dry vegetation driven by Diablo winds",
+                impact: "Deadliest fire in state history, whole towns destroyed."
+            },
+            {
+                name: "New South Wales Bush (Australia)",
+                coords: [-31.8402, 145.6128],
+                risk: "Critical (90%)",
+                status: "Severe Risk in Summer",
+                lastFire: "Dec 2019 - Jan 2020 (Black Summer)",
+                temp: "41°C+",
+                humidity: "Below 10%",
+                cause: "Extreme heatwave, prolonged drought, and lightning",
+                impact: "Estimated 3 billion animals killed or displaced."
+            },
+            {
+                name: "Siberian Taiga (Russia)",
+                coords: [61.0, 100.0],
+                risk: "Moderate (60%)",
+                status: "Monitoring (Permafrost melting)",
+                lastFire: "July 2021",
+                temp: "32°C (Anomalous Heat)",
+                humidity: "40%",
+                cause: "Climate change anomalies and historic drought",
+                impact: "Largest fires in recorded history causing global smoke spread."
+            },
+            {
+                name: "Lahaina, Maui (Hawaii, USA)",
+                coords: [20.8783, -156.6825],
+                risk: "High (75%)",
+                status: "Recovering & High Alert",
+                lastFire: "August 2023",
+                temp: "28°C",
+                humidity: "Dry conditions driven by winds",
+                cause: "Downed power lines igniting non-native grasses",
+                impact: "Historic devastation of Lahaina town, highest impact on human life."
+            },
+            {
+                name: "Canadian Boreal Forest",
+                coords: [56.1304, -106.3468],
+                risk: "High (75%)",
+                status: "Seasonal Alert",
+                lastFire: "June 2023",
+                temp: "30°C",
+                humidity: "30%",
+                cause: "Lightning strikes in remote, dry coniferous areas",
+                impact: "Caused massive smoke clouds covering parts of North America."
+            },
+            {
+                name: "Evia Island (Greece)",
+                coords: [38.5714, 23.8643],
+                risk: "Very High (82%)",
+                status: "Summer Extreme Alert",
+                lastFire: "August 2021",
+                temp: "45°C",
+                humidity: "12%",
+                cause: "Worst heatwave in 30 years hitting dry pine forests",
+                impact: "Massive evacuation and loss of ancient forests."
+            }
+        ];
+
+        // Fire Icon (Emoji based - highly reliable)
+        var fireIcon = L.divIcon({
+            html: '<div style="font-size: 24px; text-shadow: 0 0 10px #ff5722;">🔥</div>',
+            className: 'custom-fire-emoji',
+            iconSize: [30, 30],
+            iconAnchor: [15, 30],
+            popupAnchor: [0, -30]
+        });
+
+        // Add markers and detailed popups
+        forestData.forEach(function(forest) {
+            var marker = L.marker(forest.coords, {icon: fireIcon}).addTo(map);
+            
+            var popupContent = `
+                <div style="font-family: Arial, sans-serif; min-width: 260px;">
+                    <h3>${forest.name}</h3>
+                    <p style="margin: 6px 0; font-size: 13px;"><strong>Risk Level:</strong> <span style="color: #ff5722;">${forest.risk}</span></p>
+                    <p style="margin: 6px 0; font-size: 13px;"><strong>Status:</strong> ${forest.status}</p>
+                    <p style="margin: 6px 0; font-size: 13px;"><strong>Last Major Fire:</strong> ${forest.lastFire}</p>
+                    <p style="margin: 6px 0; font-size: 13px;"><strong>Temperature:</strong> ${forest.temp}</p>
+                    <p style="margin: 6px 0; font-size: 13px;"><strong>Humidity:</strong> ${forest.humidity}</p>
+                    <p style="margin: 6px 0; font-size: 13px;"><strong>Primary Cause:</strong> ${forest.cause}</p>
+                    <p style="margin: 6px 0; font-size: 13px; color: #8b949e;"><strong>Impact:</strong> ${forest.impact}</p>
+                </div>
+            `;
+            
+            marker.bindPopup(popupContent);
+        });
+    </script>
+
+</body>
+</html>
