@@ -63,41 +63,104 @@ function moveSlide(direction) {
     track.style.transform = `translateX(${movePercentage}%)`;
 }
 
-// --- PDF Report Generation Logic ---
+// --- NEW FULL-PAGE PDF GENERATION LOGIC ---
 function downloadReport() {
-    const reportElement = document.getElementById('report-content');
     const downloadBtn = document.getElementById('download-btn');
-    const h3Title = reportElement.querySelector('h3');
-    const reportDetails = document.getElementById('report-details');
+    const pdfContainer = document.getElementById('pdf-export-container');
     
-    downloadBtn.style.display = 'none';
+    // 1. Get current values
+    let temp = document.getElementById('temp').value;
+    let humidity = document.getElementById('humidity').value;
+    let wind = document.getElementById('wind').value;
+    let riskScoreText = document.getElementById('risk-text').innerText;
 
-    reportElement.style.background = '#ffffff';
-    reportElement.style.border = '1px solid #ddd';
-    h3Title.style.color = '#000000';
-    reportDetails.style.color = '#555555';
+    // 2. Populate the Hidden PDF Template
+    document.getElementById('pdf-date').innerText = new Date().toLocaleString();
+    document.getElementById('pdf-temp').innerText = temp + " °C";
+    document.getElementById('pdf-hum').innerText = humidity + " %";
+    document.getElementById('pdf-wind').innerText = wind + " km/h";
+    document.getElementById('pdf-risk-text').innerText = riskScoreText;
 
+    let riskBox = document.getElementById('pdf-risk-box');
+    let riskDesc = document.getElementById('pdf-risk-desc');
+    let recommendations = document.getElementById('pdf-recommendations');
+
+    // 3. Dynamically generate Detailed Warnings based on Risk Level
+    if (riskScoreText.includes("Critical")) {
+        riskBox.style.borderLeftColor = "#ff0000";
+        riskBox.style.backgroundColor = "#ffe6e6";
+        document.getElementById('pdf-risk-text').style.color = "#ff0000";
+        riskDesc.innerText = "EXTREME DANGER: Environmental conditions are perfectly primed for rapid, explosive fire ignition and spread.";
+        recommendations.innerHTML = `
+            <li><strong style="color: #ff0000;">Immediate Evacuation Readiness:</strong> All personnel must be prepared to evacuate forested zones instantly.</li>
+            <li><strong>Emergency Alert Activation:</strong> Local fire departments and first responders should be put on high alert.</li>
+            <li><strong>Halt All Outdoor Activities:</strong> Strict and immediate ban on campfires, outdoor machinery usage, and agricultural burns.</li>
+            <li><strong>Resource Deployment:</strong> Standby for aerial firefighting (water bombers) and ground crew mobilization.</li>
+            <li><strong>Air Quality Warning:</strong> High risk of toxic smoke spread affecting vulnerable populations.</li>
+        `;
+    } else if (riskScoreText.includes("High")) {
+        riskBox.style.borderLeftColor = "#ff5722";
+        riskBox.style.backgroundColor = "#ffefe6";
+        document.getElementById('pdf-risk-text').style.color = "#ff5722";
+        riskDesc.innerText = "WARNING: High probability of ignition. Fires can start easily from small sparks and spread quickly.";
+        recommendations.innerHTML = `
+            <li><strong>Active Patrols:</strong> Increase physical and drone surveillance in highly forested or dry areas.</li>
+            <li><strong>Public Advisories:</strong> Issue strong warnings against campfires and outdoor burning.</li>
+            <li><strong>Equipment Prep:</strong> Ensure all local firefighting equipment is fully fueled and ready for rapid dispatch.</li>
+            <li><strong>Monitor Wind Shifts:</strong> Any sudden increase in wind speed could escalate the threat to Critical status immediately.</li>
+        `;
+    } else if (riskScoreText.includes("Moderate")) {
+        riskBox.style.borderLeftColor = "#ffd700";
+        riskBox.style.backgroundColor = "#fffde6";
+        document.getElementById('pdf-risk-text').style.color = "#d4af37";
+        riskDesc.innerText = "CAUTION: Conditions are moderately favorable for combustion. Occasional monitoring is advised.";
+        recommendations.innerHTML = `
+            <li><strong>Controlled Monitoring:</strong> Keep standard satellite and remote camera monitoring active.</li>
+            <li><strong>Public Awareness:</strong> Remind park visitors and locals of standard fire safety protocols.</li>
+            <li><strong>Vegetation Check:</strong> Periodically assess fuel moisture levels in dead leaves and dry grass.</li>
+            <li><strong>Safety Equipment:</strong> Ensure basic fire extinguishers are available near camping sites.</li>
+        `;
+    } else {
+        riskBox.style.borderLeftColor = "#00ff00";
+        riskBox.style.backgroundColor = "#e6ffe6";
+        document.getElementById('pdf-risk-text').style.color = "#2e7d32";
+        riskDesc.innerText = "SAFE: Low probability of ignition. Environmental conditions do not currently support fire spread.";
+        recommendations.innerHTML = `
+            <li><strong>Standard Protocol:</strong> No special emergency actions required. Continue routine environmental logging.</li>
+            <li><strong>Safe Activities:</strong> Outdoor activities, camping, and controlled agricultural burns can proceed with standard safety care.</li>
+            <li><strong>Routine Maintenance:</strong> Optimal time for clearing dry brush safely to prevent future buildup.</li>
+        `;
+    }
+
+    // 4. THE FIX: Scroll to Top Temporarily
+    pdfContainer.style.display = 'block'; 
+    const originalScroll = window.scrollY; // Save current position
+    window.scrollTo(0, 0); // Scroll to top to avoid blank capture
+
+    downloadBtn.innerHTML = "⏳ Generating Detailed Report...";
+    downloadBtn.disabled = true;
+
+    // 5. Generate PDF
     setTimeout(() => {
         const opt = {
             margin:       0.5,
-            filename:     'AI_Forest_Fire_Risk_Report.pdf',
+            filename:     'FireRisk_AI_Detailed_Report.pdf',
             image:        { type: 'jpeg', quality: 0.98 },
             html2canvas:  { 
                 scale: 2, 
                 useCORS: true,
-                scrollY: 0 
+                scrollY: 0
             }, 
-            jsPDF:        { unit: 'in', format: 'letter', orientation: 'landscape' }
+            jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' }
         };
 
-        html2pdf().set(opt).from(reportElement).save().then(() => {
-            downloadBtn.style.display = 'inline-block';
-            reportElement.style.background = '#0d1117'; 
-            reportElement.style.border = 'none';
-            h3Title.style.color = '#c9d1d9'; 
-            reportDetails.style.color = '#8b949e'; 
+        html2pdf().set(opt).from(pdfContainer).save().then(() => {
+            pdfContainer.style.display = 'none'; // Hide template
+            window.scrollTo(0, originalScroll);  // Send user back to Calculator
+            downloadBtn.innerHTML = "📄 Download Full PDF Report";
+            downloadBtn.disabled = false;
         });
-    }, 150);
+    }, 500); // Wait 0.5s to guarantee the browser updates visually before capturing
 }
 
 // --- Mobile Hamburger Menu Toggle Logic ---
